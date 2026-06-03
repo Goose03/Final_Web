@@ -89,7 +89,8 @@ Se detectó una duplicación de la clase `MetricResponseDTO`, ya que existe una 
 
 La persistencia de datos actualmente se encuentra implementada mediante información definida directamente en el código fuente, lo que limita significativamente la escalabilidad, mantenibilidad y capacidad de almacenamiento del sistema. Como mejora, se recomienda migrar a una base de datos NoSQL, preferentemente Firebase Firestore, debido a su facilidad de integración, escalabilidad automática y soporte para aplicaciones modernas basadas en la nube.
 
-4. Mejora en la seguridad.
+4. Mejora en la seguridad
+   
 Actualmente la seguridad del proyecto permite el acceso a todo, lo que afecta la seguridad de la aplicación, por lo que deberia de serr limitada esta parrte para contar con una mejor seguridad.
 
 # Front End
