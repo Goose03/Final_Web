@@ -1,3 +1,355 @@
+---
+# README ACTUALIZADO
+---
+# Developer Metrics Dashboard
+
+## Descripción
+
+Este proyecto consiste en una aplicación web desarrollada con React y Spring Boot que permite consultar métricas de desarrolladores almacenadas en Firebase Firestore y visualizarlas en un dashboard interactivo.
+
+---
+
+# Arquitectura General
+
+```text
+Frontend (React)
+        │
+        ▼
+API REST (Spring Boot)
+        │
+        ▼
+Servicios
+        │
+        ▼
+Firestore Database
+```
+
+El frontend consume una API REST expuesta por Spring Boot.
+
+El backend obtiene la información desde Firebase Firestore y la devuelve al frontend en formato JSON.
+
+---
+
+# Backend
+
+## Estructura
+
+```text
+com.exampleback.demo
+├── controller
+├── service
+├── repository
+├── model
+├── dto
+└── config
+```
+
+---
+
+## Config
+
+### FirebaseConfig
+
+Responsable de inicializar la conexión con Firebase.
+
+```java
+@Configuration
+public class FirebaseConfig
+```
+
+Carga las credenciales del archivo:
+
+```text
+firebase-service-account.json
+```
+
+y crea una instancia de FirebaseApp.
+
+---
+
+## Model
+
+### DeveloperMetric
+
+Representa una métrica almacenada en Firestore.
+
+```java
+public class DeveloperMetric
+```
+
+Campos:
+
+```java
+private String developerName;
+private String metricDate;
+private Integer commits;
+private Integer bugsFixed;
+private Integer tasksCompleted;
+private Integer storyPoints;
+```
+
+---
+
+## Service
+
+### FirebaseDBService
+
+Encargado de la comunicación con Firestore.
+
+Funciones principales:
+
+#### guardarDato()
+
+Guarda una métrica en la colección:
+
+```text
+developerMetrics
+```
+
+#### getMetrics()
+
+Obtiene todos los documentos de Firestore.
+
+```java
+db.collection("developerMetrics")
+```
+
+Convierte cada documento a:
+
+```java
+DeveloperMetric
+```
+
+y retorna una lista.
+
+---
+
+### MetricsService
+
+Capa de negocio.
+
+Recibe la información desde FirebaseDBService y la entrega al controlador.
+
+```java
+public List<DeveloperMetric> getAllMetrics()
+```
+
+---
+
+## Controller
+
+### MetricsController
+
+Expone los endpoints REST.
+
+Endpoint:
+
+```http
+GET /metrics
+```
+
+Retorna:
+
+```json
+[
+  {
+    "developerName": "Francisco",
+    "metricDate": "2026-05-01",
+    "commits": 12,
+    "bugsFixed": 2,
+    "tasksCompleted": 5,
+    "storyPoints": 8
+  }
+]
+```
+
+---
+
+# Frontend
+
+## Estructura
+
+```text
+src/
+├── pages/
+├── services/
+├── components/
+└── App.jsx
+```
+
+---
+
+## Services
+
+### metricsService.js
+
+Responsable de consumir la API REST.
+
+```javascript
+const API_URL = "http://localhost:8080/metrics";
+```
+
+Función:
+
+```javascript
+getMetricData()
+```
+
+Realiza:
+
+```javascript
+axios.get(API_URL)
+```
+
+---
+
+## Dashboard
+
+### Dashboard.jsx
+
+Componente principal del sistema.
+
+Responsabilidades:
+
+- Obtener métricas desde el backend.
+- Procesar los datos.
+- Construir datasets para Chart.js.
+- Mostrar gráficas.
+
+---
+
+## Flujo de Datos
+
+Al cargar la página:
+
+```javascript
+useEffect(() => {
+    loadMetrics();
+}, []);
+```
+
+Se ejecuta:
+
+```javascript
+getMetricData()
+```
+
+La API responde con:
+
+```json
+[
+  {
+    "commits": 12,
+    "bugsFixed": 2,
+    "tasksCompleted": 5,
+    "storyPoints": 8
+  }
+]
+```
+
+Los datos son transformados en arreglos:
+
+```javascript
+commits
+bugs
+tasks
+storyPoints
+```
+
+Posteriormente son utilizados para construir:
+
+- Line Chart
+- Bar Chart
+- Doughnut Chart
+
+mediante Chart.js.
+
+---
+
+# Base de Datos
+
+## Firebase Firestore
+
+Colección utilizada:
+
+```text
+developerMetrics
+```
+
+Documento ejemplo:
+
+```json
+{
+  "developerName": "Francisco",
+  "metricDate": "2026-05-01",
+  "commits": 12,
+  "bugsFixed": 2,
+  "tasksCompleted": 5,
+  "storyPoints": 8
+}
+```
+
+---
+
+# Ejecución
+
+## Backend
+
+```bash
+./mvnw spring-boot:run
+```
+
+Servidor:
+
+```text
+http://localhost:8080
+```
+
+---
+
+## Frontend
+
+```bash
+npm install
+npm run dev
+```
+
+Servidor:
+
+```text
+http://localhost:5173
+```
+
+---
+
+# Flujo Completo
+
+```text
+Dashboard.jsx
+      │
+      ▼
+metricsService.js
+      │
+      ▼
+GET /metrics
+      │
+      ▼
+MetricsController
+      │
+      ▼
+MetricsService
+      │
+      ▼
+FirebaseDBService
+      │
+      ▼
+Firestore
+```
+
+---
+# Readme de actividad M6_Advanced_Web_Francisco_EvaluacionBloque3
+---
+
 # Back End
 ## Diagrama de Estructura Corregida
 ```md
