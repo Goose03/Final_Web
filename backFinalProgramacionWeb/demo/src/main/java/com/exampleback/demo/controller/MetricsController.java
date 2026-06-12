@@ -3,26 +3,22 @@ package com.exampleback.demo.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exampleback.demo.dto.MetricResponseDTO;
+import com.exampleback.demo.model.DeveloperMetric;
 import com.exampleback.demo.service.MetricsService;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
-@RequestMapping("/metrics")
-@RequiredArgsConstructor
 public class MetricsController {
 
-    private final MetricsService service;
+    private final MetricsService metricsService;
 
-    @GetMapping("/{metric}")
-    public List<MetricResponseDTO> getMetricData(
-            @PathVariable String metric) {
+    public MetricsController(MetricsService metricsService) {
+        this.metricsService = metricsService;
+    }
 
-        return service.getMetricData(metric);
+    @GetMapping("/metrics")
+    public List<DeveloperMetric> getMetrics() {
+        return metricsService.getAllMetrics();
     }
 }

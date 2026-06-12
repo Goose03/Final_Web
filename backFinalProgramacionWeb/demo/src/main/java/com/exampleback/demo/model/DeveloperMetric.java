@@ -1,20 +1,21 @@
 package com.exampleback.demo.model;
 
-import java.time.LocalDate;
-
 public class DeveloperMetric {
 
     private String developerName;
-    private LocalDate metricDate;
+    private String metricDate;
     private Integer commits;
     private Integer bugsFixed;
     private Integer tasksCompleted;
     private Integer storyPoints;
 
-    // Constructor
+    // Required by Firestore
+    public DeveloperMetric() {
+    }
+
     public DeveloperMetric(
             String developerName,
-            LocalDate metricDate,
+            String metricDate,
             Integer commits,
             Integer bugsFixed,
             Integer tasksCompleted,
@@ -32,23 +33,47 @@ public class DeveloperMetric {
         return developerName;
     }
 
-    public LocalDate getMetricDate() {
+    public void setDeveloperName(String developerName) {
+        this.developerName = developerName;
+    }
+
+    public String getMetricDate() {
         return metricDate;
+    }
+
+    public void setMetricDate(String metricDate) {
+        this.metricDate = metricDate;
     }
 
     public Integer getCommits() {
         return commits;
     }
 
+    public void setCommits(Integer commits) {
+        this.commits = commits;
+    }
+
     public Integer getBugsFixed() {
         return bugsFixed;
+    }
+
+    public void setBugsFixed(Integer bugsFixed) {
+        this.bugsFixed = bugsFixed;
     }
 
     public Integer getTasksCompleted() {
         return tasksCompleted;
     }
 
+    public void setTasksCompleted(Integer tasksCompleted) {
+        this.tasksCompleted = tasksCompleted;
+    }
+
     public Integer getStoryPoints() {
         return storyPoints;
+    }
+
+    public void setStoryPoints(Integer storyPoints) {
+        this.storyPoints = storyPoints;
     }
 }
